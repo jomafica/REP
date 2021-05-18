@@ -1,33 +1,23 @@
-require("dotenv").config();
-const admin = require("firebase");
 var express = require('express');
+const db = require("../private/db");
 const app = express()
 app.use(express.json())
 var router = express.Router();
 
-// Initialize Cloud Firestore through Firebase
-admin.initializeApp({
-  apiKey: process.env.apiKey,
-  authDomain: "ipreputation-21a8e.firebaseapp.com",
-  projectId: 'ipreputation-21a8e'
-});
-
-var db = admin.firestore();
-
 /* GET ip listing. */
-router.post('/', function(req, res, next) {
+router.get('/', function(req, res) {
 
-  if(req.method !== 'POST') {
-    return res.status(405).send(`${req.method} is not allowed. Use POST.`);
+  if(req.method !== 'GET') {
+    return res.status(405).send(`${req.method} is not allowed. Use GET.`);
   }
 
   (async () => {
+
     console.log(req.body.ips)
-    
     answer = new Array
 
     try {
-      await db
+      await db.dbconnection()
         .collection("main")
         .where('ip','in', req.body.ips)
         .get()
