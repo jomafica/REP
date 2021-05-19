@@ -35,3 +35,26 @@ var postConverter = {
       return new Ips(data.ip, data.domain, data.domain1, data.domain2, data.hash, data.hash1, data.hash2, data.hyperlink);
   }
 };
+
+
+
+PUT body:
+
+[
+    {
+        "ip" : "1.1.1.5",
+        "domain" : "google.com",
+        "domain1" : "None",
+        "domain2" : "None",
+        "hash" : "None",
+        "hash1" : "None",
+        "hash2" : "None",
+        "hyperlink" : "www.google.pt/com"
+    }
+]
+
+GET body:
+
+{
+    "ips": ["1.1.1.5", "1.1.1.1"]
+}
