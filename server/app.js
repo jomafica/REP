@@ -1,26 +1,21 @@
 var createError = require('http-errors');
 var express = require('express');
-var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var query = require('./routes/query');
-var put = require('./routes/put')
-
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
+// Middlewares
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/query', query);
-app.use('/put', put);
+// Files for the routes
+var query = require('./routes/query');
+
+// Routes
+app.use(query);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -35,7 +30,17 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.send('error');
 });
 
 module.exports = app;
+
+
+
+
+/* 
+// This that i dont need
+// var path = require('path');
+// app.use(express.static(path.join(__dirname, 'public'))); // Server static files
+// view engine setup
+*/
