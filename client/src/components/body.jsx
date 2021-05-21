@@ -15,7 +15,7 @@ class body extends React.Component {
 
         this.regex  = RegExp(/(\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3})/g);
         this.state = { 
-            lista: [],
+            inputIp: [],
             enabled: false
         }
 
@@ -24,9 +24,9 @@ class body extends React.Component {
     }
 
     handleInput(e) {
-        this.setState({lista: e.target.value.match(this.regex)},
+        this.setState({inputIp: e.target.value.match(this.regex)},
         () => {
-            if (this.regex.test(this.state.lista)) {
+            if (this.regex.test(this.state.inputIp)) {
                 this.setState({enabled: true});
             } else {
                 this.setState({enabled: false});
@@ -43,32 +43,21 @@ class body extends React.Component {
     
         if(this.state.enabled){
     
-            var lst = [];
+            var json = {ips: this.state.inputIp};
     
-            if(this.state.lista.length > 0) {
-                var l = this.state.lista.length
-                for( var i = 0; i < l; i++) {
-                    lst.push(this.state.lista[i]);
+            const options = {
+                method: 'POST',
+                body: JSON.stringify(json),
+                headers: {
+                    'Content-Type': 'application/json'
                 }
-            } else {
-                lst = this.state.lista
-            };
-    
-            var json = {ips: lst};
-    
-            //const options = {
-            //    method: 'POST',
-            //    body: JSON.stringify(json),
-            //    headers: {
-            //        'Content-Type': 'application/json'
-            //    }
-            //}
-            //
-            //// send post request and call function
-            //fetch('/query', options)
-            //    .then(res => res.json())
-            //    .then(res => createtable(res)) // <Table />
-            //    .catch(err => console.error(err));
+            }
+            
+            // send post request and call function
+            fetch('http://localhost:3001/query', options)
+                .then(res => res.json())
+                .then(res => console.log(res)/*createtable(res)*/) // <Table />
+                .catch(err => console.error(err));
     
         }
     

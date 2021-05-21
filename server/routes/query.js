@@ -9,30 +9,23 @@ router.route('/query')
 
   .all(function (req, res, next) {
 
-    if(req.method !== 'GET' && req.method !== 'POST') {
+    if(req.method !== 'PUT' && req.method !== 'POST') {
       return res.status(405).send(`${req.method} method is not allowed.`);
     }
-
     next()
   })
 
-  .get(function(req, res) {
-
+  .post(function(req, res) {
+    
     (async () => {
-  
-      console.log(req.body.ips)
-      answer = new Array
-  
+      console.log(req.body)
       try {
         await db.dbconnection()
           .collection("main")
-          .where('ip','in', req.body.ips)
+          .doc(req.body)
           .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              answer.push(doc.data())
-            });
-          return res.status(200).send(answer); 
+          .then((doc) => {
+            return res.status(200).send(doc.data());
         });
         } catch (error) {
           console.log(error);
@@ -41,7 +34,7 @@ router.route('/query')
     })();
   })
 
-  .post(function(req, res) {
+  .put(function(req, res) {
 
     (async () => {
 
