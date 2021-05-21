@@ -2,7 +2,7 @@ import Header from "./header"
 
 function Top() {
     return (
-      <div class="container">
+      <div className="container">
         <Header />
       </div>
     )

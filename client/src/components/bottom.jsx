@@ -2,7 +2,7 @@ import Footer from "./footer"
 
 function Bottom() {
     return (
-      <div class="container sticky-bottom">
+      <div className="container sticky-bottom">
             <Footer />
       </div>
     )     
