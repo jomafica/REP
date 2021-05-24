@@ -12,7 +12,7 @@ function Body() {
     const [input, setInput] = useState('');
     const [status, setStatus] = useState(false);
     const [ips, setIps] = useState({ips : []})
-   
+    const [answer, setAnswer] = useState([])
 
     useEffect(() => {
             if (regex.test(input)) {
@@ -38,7 +38,6 @@ function Body() {
                 if(tabledivs){
                     tabledivs.remove();
                 }
-            console.log(ips)
 
             const options = {
                 method: 'POST',
@@ -51,10 +50,11 @@ function Body() {
             // send post request and call function
             fetch('http://localhost:3001/query', options)
                 .then(res => res.json())
-                .then(res => console.log(res)/*createtable(res)*/) // <Table />
+                .then(res => setAnswer(res)/*createtable(res)*/) // <Table />
                 .catch(err => console.error(err));
         }
     }
+    console.log(answer)
 
     return (
         <Container className="p-3">
@@ -78,7 +78,7 @@ function Body() {
 
                     <Container className="pt-4">
                         <Form.Group>
-                            <textarea type="text" style={{resize:"none"}} className="form-control" id="ips" rows="10" placeholder="x.x.x.x,y.y.y.y" onInput={e => setInput([e.target.value])}></textarea>
+                            <textarea type="text" style={{resize:"none"}} className="form-control" rows="10" placeholder="x.x.x.x,y.y.y.y" value={input} onInput={e => setInput([e.target.value])}></textarea>
                         </Form.Group>
                         <Col className="p-4 text-center">
                             <Button className="rounded" style={{width: "10em"}} id="submit" onClick={handleSubmit}>Submit</Button>

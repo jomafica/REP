@@ -23,12 +23,9 @@ router.route('/query')
       try {
         await db.dbconnection()
           .collection("main")
-          .doc(req.body.ips.forEach(element => {
-            element.toString()
-          }))
+          .doc(req.body.ips.toString())
           .get()
-          .then(docs => { docs.forEach(doc => {answer.push(doc)}) });
-        return res.status(200).send(answer);
+          .then(doc => { return res.status(200).send(doc.data())}); //corrigir !
         } catch (error) {
           console.log(error);
           return res.status(500).send(error);
