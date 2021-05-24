@@ -6,53 +6,43 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
 
 
-import Table from "./table"
+//import Table from "./table"
 
 function Body() {
-
-    const regex  = RegExp(/(\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3})/g);
-    const [input, setInput] = useState([]);
-    var enabled = false
-    console.log(enabled)
+    const [input, setInput] = useState('');
+    const [status, setStatus] = useState(false);
+    const [ips, setIps] = useState({ips : []})
+   
 
     useEffect(() => {
-        setInput(input.match(regex), 
-        () => {
-            console.log(prevInput)
-            if (regex.test(prevInput)) {
-                enabled = true
+            if (regex.test(input)) {
+                setStatus(true);
             } else {
-                enabled = false
+                setStatus(false);
             }
-          }
-        ); 
-      }, [input]);
+    }, [input]);
 
-    //function handleInput() {
-    //    setInput(input.match(regex),
-    //    () => {
-    //        if (regex.test(input)) {
-    //            setInput({enabled: true});
-    //        } else {
-    //            setInput({enabled: false});
-    //        }
-    //      }
-    //    ); 
-    //}
+    useEffect(() => {
+
+        if(status){
+            setIps({ips: input.toString().match(regex)});
+        } 
+
+    }, [status,input]);
 
     function handleSubmit() {
-        var tabledivs = document.getElementById("tablediv");
-        if(tabledivs){
-            tabledivs.remove();
-        }
-    
-        if(enabled){
-            console.log("subrmited")
-            var json = {ips: input};
-    
+
+        if(ips.ips != undefined || ips.ips != null){
+
+            var tabledivs = document.getElementById("tablediv");
+                if(tabledivs){
+                    tabledivs.remove();
+                }
+            console.log(ips)
+
             const options = {
                 method: 'POST',
-                body: JSON.stringify(json),
+                body: JSON.stringify(ips),
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -63,9 +53,7 @@ function Body() {
                 .then(res => res.json())
                 .then(res => console.log(res)/*createtable(res)*/) // <Table />
                 .catch(err => console.error(err));
-    
         }
-    
     }
 
     return (
@@ -90,7 +78,7 @@ function Body() {
 
                     <Container className="pt-4">
                         <Form.Group>
-                            <textarea type="text" style={{resize:"none"}} className="form-control" id="ips" rows="10" placeholder="x.x.x.x,y.y.y.y" onInput={e => setInput(e.target.value)}></textarea>
+                            <textarea type="text" style={{resize:"none"}} className="form-control" id="ips" rows="10" placeholder="x.x.x.x,y.y.y.y" onInput={e => setInput([e.target.value])}></textarea>
                         </Form.Group>
                         <Col className="p-4 text-center">
                             <Button className="rounded" style={{width: "10em"}} id="submit" onClick={handleSubmit}>Submit</Button>
@@ -98,7 +86,6 @@ function Body() {
                         </Col>
                     </Container>
                     <p className="text-center"><small>This line of text is meant to be treated as fine print.</small></p>
-
                 </Row>
             </Row>
         </Container>
@@ -107,4 +94,4 @@ function Body() {
 
 export default Body
 
-
+const regex  = RegExp(/(\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3})/g);

@@ -18,15 +18,17 @@ router.route('/query')
   .post(function(req, res) {
     
     (async () => {
-      console.log(req.body)
+      console.log(req.body.ips)
+      var answer = []
       try {
         await db.dbconnection()
           .collection("main")
-          .doc(req.body)
+          .doc(req.body.ips.forEach(element => {
+            element.toString()
+          }))
           .get()
-          .then((doc) => {
-            return res.status(200).send(doc.data());
-        });
+          .then(docs => { docs.forEach(doc => {answer.push(doc)}) });
+        return res.status(200).send(answer);
         } catch (error) {
           console.log(error);
           return res.status(500).send(error);
