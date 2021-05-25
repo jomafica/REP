@@ -1,4 +1,5 @@
 import React, { useState, useEffect}  from 'react'
+import Table  from './table'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -6,13 +7,11 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
 
 
-//import Table from "./table"
-
-function Body() {
+export default function Body() {
     const [input, setInput] = useState('');
     const [status, setStatus] = useState(false);
-    const [ips, setIps] = useState({ips : []})
-    const [answer, setAnswer] = useState([])
+    const [ips, setIps] = useState({ips : []});
+    const [answer, setAnswer] = useState([]);
 
     useEffect(() => {
             if (regex.test(input)) {
@@ -32,7 +31,7 @@ function Body() {
 
     function handleSubmit() {
 
-        if(ips.ips != undefined || ips.ips != null){
+        if(ips.ips){
 
             var tabledivs = document.getElementById("tablediv");
                 if(tabledivs){
@@ -50,11 +49,23 @@ function Body() {
             // send post request and call function
             fetch('http://localhost:3001/query', options)
                 .then(res => res.json())
-                .then(res => setAnswer(res)/*createtable(res)*/) // <Table />
+                .then(res => setAnswer(res))
                 .catch(err => console.error(err));
         }
     }
-    console.log(answer)
+
+    function createTable() {
+        if (answer) {
+          return <Table content={answer}/>;
+        }
+        return <></>;
+      }
+
+    const showTable = createTable();
+
+    function cleanTable() {
+        setAnswer([])
+      }
 
     return (
         <Container className="p-3">
@@ -82,16 +93,15 @@ function Body() {
                         </Form.Group>
                         <Col className="p-4 text-center">
                             <Button className="rounded" style={{width: "10em"}} id="submit" onClick={handleSubmit}>Submit</Button>
-                            <Button variant="outline-primary" className="rounded" style={{width: "10em"}} id="reset">Reset</Button>
+                            <Button variant="outline-primary" className="rounded" style={{width: "10em"}} onClick={cleanTable}>Reset</Button>
                         </Col>
                     </Container>
                     <p className="text-center"><small>This line of text is meant to be treated as fine print.</small></p>
                 </Row>
             </Row>
+            {showTable}
         </Container>
     );
 }
-
-export default Body
 
 const regex  = RegExp(/(\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3})/g);
