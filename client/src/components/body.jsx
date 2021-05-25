@@ -1,5 +1,6 @@
 import React, { useState, useEffect}  from 'react'
-import Table  from './table'
+import ReactDOM from 'react-dom';
+import CreateTable  from './table'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -8,7 +9,7 @@ import Form from 'react-bootstrap/Form'
 
 
 export default function Body() {
-    const [input, setInput] = useState('');
+    const [input, setInput] = useState(''); // validar on submit apenas. 
     const [status, setStatus] = useState(false);
     const [ips, setIps] = useState({ips : []});
     const [answer, setAnswer] = useState([]);
@@ -54,17 +55,19 @@ export default function Body() {
         }
     }
 
-    function createTable() {
-        if (answer) {
-          return <Table content={answer}/>;
-        }
-        return <></>;
-      }
+    useEffect(() => {
 
-    const showTable = createTable();
+        if(answer){
+            ReactDOM.render(
+                <CreateTable content={answer}/>,
+              document.getElementById("table"),
+            )
+        } 
+    }, [answer]);
 
-    function cleanTable() {
-        setAnswer([])
+
+    function clearTable() {
+            document.getElementById("tablediv").remove()
       }
 
     return (
@@ -93,13 +96,13 @@ export default function Body() {
                         </Form.Group>
                         <Col className="p-4 text-center">
                             <Button className="rounded" style={{width: "10em"}} id="submit" onClick={handleSubmit}>Submit</Button>
-                            <Button variant="outline-primary" className="rounded" style={{width: "10em"}} onClick={cleanTable}>Reset</Button>
+                            <Button variant="outline-primary" className="rounded" style={{width: "10em"}} onClick={clearTable}>Reset</Button>
                         </Col>
                     </Container>
                     <p className="text-center"><small>This line of text is meant to be treated as fine print.</small></p>
                 </Row>
             </Row>
-            {showTable}
+            <Container id="table" />
         </Container>
     );
 }
