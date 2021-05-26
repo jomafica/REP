@@ -34,10 +34,10 @@ export default function Body() {
 
         if(ips.ips){
 
-            var tabledivs = document.getElementById("tablediv");
-                if(tabledivs){
-                    tabledivs.remove();
-                }
+            //var tabledivs = document.getElementById("tablediv");
+            //    if(tabledivs){
+            //        tabledivs.remove();
+            //    }
 
             const options = {
                 method: 'POST',
@@ -67,7 +67,7 @@ export default function Body() {
 
 
     function clearTable() {
-            document.getElementById("tablediv").remove()
+            setAnswer('')
       }
 
     return (
