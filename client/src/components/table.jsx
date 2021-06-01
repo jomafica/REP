@@ -32,6 +32,16 @@ export default function CreateTable(props) {
         setK(kk)
     }, [props.content])
 
+    function tableHeader(){
+        if(k){
+            for(const entry of k.values()){
+                console.log(entry)
+                return <th scope="col" key={entry}>{entry}</th>
+                
+            } 
+        }
+    }
+    
     console.log(k)
 
     return (
@@ -47,7 +57,7 @@ export default function CreateTable(props) {
             <Table className="table">
                <thead>
                     <tr>
-                        <th scope="col" key={k}>{k}</th>
+                        {tableHeader()}
                     </tr>
                </thead>
                <tbody>
