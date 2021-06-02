@@ -25,7 +25,8 @@ router.route('/query')
       },
     {
       "ip" : "1.1.1.2",
-      "domain": "twotwotwo.com" 
+      "domain": "twotwotwo.com",
+      "treta": "wtwowo.com"  
     }]
     )
     

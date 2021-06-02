@@ -92,14 +92,18 @@ export default function Body() {
 
                     <Container className="pt-4">
                         <Form.Group>
-                            <textarea type="text" style={{resize:"none"}} className="form-control" rows="10" placeholder="x.x.x.x,y.y.y.y" value={input} onInput={e => setInput([e.target.value])}></textarea>
+                            <textarea type="text" style={{resize:"none"}} className="form-control" rows="10" placeholder="x.x.x.x,x.x.y.y" value={input} onInput={e => setInput([e.target.value])}></textarea>
                         </Form.Group>
-                        <Col className="p-4 text-center">
-                            <Button className="rounded" style={{width: "10em"}} id="submit" onClick={handleSubmit}>Submit</Button>
-                            <Button variant="outline-primary" className="rounded" style={{width: "10em"}} onClick={clearTable}>Reset</Button>
-                        </Col>
+                        <Row className="p-4 text-center justify-content-md-center">
+                            <Col></Col>
+                            <Col><Button className="rounded" style={{width: "10em"}} id="submit" onClick={handleSubmit}>Submit</Button></Col>
+                            <Col><Button variant="outline-primary" className="rounded" style={{width: "10em"}} onClick={clearTable}>Reset</Button></Col>
+                            <Col></Col>
+                        </Row>
+                        <Row className="text-center justify-content-md-center">
+                            <p><small>This line of text is meant to be treated as fine print.</small></p>
+                        </Row>
                     </Container>
-                    <p className="text-center"><small>This line of text is meant to be treated as fine print.</small></p>
                 </Row>
             </Row>
             <Container id="table" />

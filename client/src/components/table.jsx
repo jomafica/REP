@@ -5,19 +5,6 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 
 export default function CreateTable(props) {
-
-    
-    //const map = useMemo(() => {
-    //    const newMap = new Map() 
-    //    const currentmap = new Map(Object.entries(props.content))
-    //    for (let k of currentmap.keys()) {
-    //        var keyMap = new Map(Object.entries(currentmap.get(k)))
-    //        for( let [key, value] of keyMap){
-    //            newMap.set(key,value)
-    //        }      
-    //    }
-    //    return newMap
-    //}, [props.content])
     
     const [k,setK] = useState()
 
@@ -34,27 +21,47 @@ export default function CreateTable(props) {
 
     function tableHeader(){
         if(k){
+            var headerSet = new Set()
             for(const entry of k.values()){
-                console.log(entry)
-                return <th scope="col" key={entry}>{entry}</th>
-                
-            } 
+                headerSet.add(theadTd(entry))
+            }
+            return headerSet 
         }
     }
+
+    function theadTd(elem){
+        return <th scope="col" key={elem}>{elem}</th>
+    }
+
+    function tableBody(value) {
+        if(k){
+            var bodySet = new Set()
+            props.content.forEach(            
+                for (const [ky, vae] of Object.entries(value)) {
+                bodySet.add(tbodyTh(ky,vae))
+              }
+              )
+
+              console.log(bodySet.values())
+              return bodySet
+        }
+      }
     
-    console.log(k)
+    function tbodyTh(keyy,ele){
+        return <th scope="col" key={keyy}>{ele}</th>
+    }
 
     return (
         //<p>{JSON.stringify(props.content)}</p>
         <Container className="pt-5" id="tablediv">
             <div className="shadow-none pb-3 pt-3 bg-light rounded">
                 <Row className="p-3">
-                    <div className="shadow-none pb-3 pt-3 bg-light rounded">
-                        <Button className="btn-outline-primary rounded" style={{width: "10em"}}>Reset search</Button>
+                    <div className="shadow-none pb-2 pt-2 bg-light rounded">
+                        <Button  variant="outline-primary" className="rounded" style={{width: "10em"}}>Reset search</Button>
                     </div>
                 </Row>
             </div>
-            <Table className="table">
+            <Table responsive="sm" className="table">
                <thead>
                     <tr>
                         {tableHeader()}
@@ -62,7 +69,7 @@ export default function CreateTable(props) {
                </thead>
                <tbody>
                     <tr>
-                        {/*map.values(coise => <th scope="col" key={coise.domain}>{coise.domain}</th>)*/}
+                        {tableBody()}
                     </tr>
                </tbody>
             </Table>
