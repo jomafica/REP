@@ -21,12 +21,12 @@ router.route('/query')
       {
       "ip" : "1.1.1.1",
       "domain": "oneoneone.com",
-      "coiso" : "1.1.1.1", 
+      "coiso" : "dezdezdez.m", 
       },
     {
       "ip" : "1.1.1.2",
       "domain": "twotwotwo.com",
-      "treta": "wtwowo.com"  
+      "coiso": "wtwowo.m"  
     }]
     )
     
