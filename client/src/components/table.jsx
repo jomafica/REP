@@ -7,17 +7,23 @@ import Button from 'react-bootstrap/Button';
 export default function CreateTable(props) {
     
     const [k,setK] = useState()
-
+-
     useMemo(() => {
         var kk = new Set()
+        var vv = new Map()
         Object.keys(props.content).forEach(function(key) {
             var value = props.content[key];
             Object.keys(value).forEach(function(key) {
+                Object.values(value).forEach(function(val) {
+                    vv[key] = val
+                })
                 kk.add(key)
             })
+            tableBody(vv)
         });
         setK(kk)
     }, [props.content])
+
 
     function tableHeader(){
         if(k){
@@ -33,28 +39,24 @@ export default function CreateTable(props) {
         return <th scope="col" key={elem}>{elem}</th>
     }
 
-    function tableBody(value) {
-        if(k){
+    function tableBody(val){
+        if(val){
             var bodySet = new Set()
-            props.content.forEach(            
-                for (const [ky, vae] of Object.entries(value)) {
-                bodySet.add(tbodyTh(ky,vae))
-                }
-              )
-
-              console.log(bodySet.values())
-              return bodySet
+            for(const entry of val.values()){
+                bodySet.add(theadTh(entry))
+            }
+            return <tr>{bodySet}</tr>
         }
-      }
-    
-    function tbodyTh(keyy,ele){
-        return <th scope="col" key={keyy}>{ele}</th>
+    }
+
+    function theadTh(elem){
+        return <th scope="col" key={elem}>{elem}</th>
     }
 
     return (
         //<p>{JSON.stringify(props.content)}</p>
         <Container className="pt-5" id="tablediv">
-            <div className="shadow-none pb-3 pt-3 bg-light rounded">
+            <div className="shadow-none pb-2 pt-2 bg-light rounded">
                 <Row className="p-3">
                     <div className="shadow-none pb-2 pt-2 bg-light rounded">
                         <Button  variant="outline-primary" className="rounded" style={{width: "10em"}}>Reset search</Button>
@@ -68,9 +70,7 @@ export default function CreateTable(props) {
                     </tr>
                </thead>
                <tbody>
-                    <tr>
                         {tableBody()}
-                    </tr>
                </tbody>
             </Table>
         </Container>    
