@@ -39,7 +39,7 @@ export default function CreateTable(props) {
             props.content.forEach(            
                 for (const [ky, vae] of Object.entries(value)) {
                 bodySet.add(tbodyTh(ky,vae))
-              }
+                }
               )
 
               console.log(bodySet.values())
